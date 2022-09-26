@@ -11,6 +11,7 @@ service.interceptors.response.use(response => {
     return data
   }
   Message.error(message)
+  // throw (new Error(message))
   return Promise.reject(new Error(message))
 }, error => {
   Message.error(error.message)

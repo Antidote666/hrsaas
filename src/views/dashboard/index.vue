@@ -17,6 +17,10 @@ export default {
 }
 </script>
 
+<style lang="scss">
+
+</style>
+
 <style lang="scss" scoped>
 .dashboard {
   &-container {
@@ -27,4 +31,5 @@ export default {
     line-height: 46px;
   }
 }
+
 </style>
