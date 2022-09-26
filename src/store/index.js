@@ -19,7 +19,9 @@ const store = new Vuex.Store({
     // paths: ['user.token']
     reducer({ user }) {
       return {
-        user
+        user: {
+          token: user.token
+        }
       }
     }
   })]

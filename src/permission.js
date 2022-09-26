@@ -4,6 +4,9 @@ const white = ['/404', '/login']
 
 router.beforeEach((to, from, next) => {
   if (store.getters.token) {
+    if (!store.getters.userId) {
+      store.dispatch('user/getUserInfo')
+    }
     if (to.path === '/login') {
       next({ path: '/' })
     } else {
