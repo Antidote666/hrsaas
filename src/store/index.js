@@ -20,7 +20,8 @@ const store = new Vuex.Store({
     reducer({ user }) {
       return {
         user: {
-          token: user.token
+          token: user.token,
+          harssTime: user.harssTime
         }
       }
     }

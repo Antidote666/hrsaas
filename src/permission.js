@@ -1,11 +1,12 @@
 import router from './router'
 import store from './store'
+
 const white = ['/404', '/login']
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async(to, from, next) => {
   if (store.getters.token) {
     if (!store.getters.userId) {
-      store.dispatch('user/getUserInfo')
+      await store.dispatch('user/getUserInfo')
     }
     if (to.path === '/login') {
       next({ path: '/' })
