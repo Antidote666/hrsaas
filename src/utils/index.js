@@ -115,3 +115,34 @@ export function param2Obj(url) {
   })
   return obj
 }
+
+// export const tranListToTreeData = (list, rootValue) => {
+//   const arr = []
+//   list.forEach(item => {
+//     if (item.pid === rootValue) {
+//       const children = tranListToTreeData(list, item.id)
+//       if (children.length) {
+//         item.children = children
+//       }
+//       arr.push(item)
+//     }
+//   })
+//   return arr
+// }
+export const tranListToTreeData = (list) => {
+  const treeList = []
+  const map = {}
+  const result = list.map(item => {
+    item.children = []
+    map[item.id] = item
+    return item
+  })
+  result.forEach(item => {
+    const parent = map[item.pid]
+    // if (parent !== '-1') {
+    parent ? parent.children.push(item) : treeList.push(item)
+    // }
+  })
+  return treeList
+}
+
