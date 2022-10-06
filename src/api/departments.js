@@ -5,3 +5,11 @@ export function getDepartments() {
     url: '/company/department'
   })
 }
+
+export const addDepartments = (data) => {
+  return request({
+    url: '/company/department',
+    method: 'POST',
+    data
+  })
+}
