@@ -13,3 +13,18 @@ export const addDepartments = (data) => {
     data
   })
 }
+
+export const updateDepartments = (data) => {
+  return request({
+    url: `/company/department/${data.id}`,
+    method: 'PUT',
+    data
+  })
+}
+
+export const delDepartments = (id) => {
+  return request({
+    url: `/company/department/${id}`,
+    method: 'delete'
+  })
+}
