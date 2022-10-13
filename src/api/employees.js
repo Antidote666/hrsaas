@@ -33,3 +33,31 @@ export function importEmployee(data) {
     data
   })
 }
+
+export function getEmployeesInfo(id) {
+  return request({
+    url: `/employees/${id}/personalInfo`
+  })
+}
+
+export function saveEmployeesInfo(data) {
+  return request({
+    url: `/employees/${data.userId}/personalInfo`,
+    method: 'PUT',
+    data
+  })
+}
+
+export function getEmployeesJobInfo(id) {
+  return request({
+    url: `/employess/${id}/jobs`
+  })
+}
+
+export function saveEmployeesJobInfo(data) {
+  return request({
+    url: `/employess/${data.userId}/jobs`,
+    method: 'PUT',
+    data
+  })
+}
