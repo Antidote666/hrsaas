@@ -16,6 +16,9 @@ import '@/icons' // icon
 import '@/permission' // permission control
 import plugins from '@/plugins'
 Vue.use(plugins)
+
+import Print from 'vue-print-nb'
+Vue.use(Print)
 // import * as directives from '@/directives'
 
 // Object.keys(directives).forEach(item => {

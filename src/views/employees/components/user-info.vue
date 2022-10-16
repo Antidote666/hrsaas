@@ -1,5 +1,8 @@
 <template>
   <div class="user-info">
+
+    <i class="el-icon-printer" @click="$router.push('/employees/print/'+userId+'?type=personal')" />
+
     <!-- 个人信息 -->
     <el-form label-width="220px">
       <!-- 工号 入职时间 -->
@@ -58,6 +61,7 @@
         <el-col :span="12">
           <el-form-item label="员工头像">
             <!-- 放置上传图片 -->
+            <upload-img ref="avator" :defaulturl="defalutUrl" @on-success="onSuccess" />
           </el-form-item>
         </el-col>
       </el-row>
@@ -91,6 +95,8 @@
 
         <el-form-item label="员工照片">
           <!-- 放置上传图片 -->
+          <upload-img ref="avator1" :defaulturl="defalutUrl1" @on-success="onSuccess1" />
+
         </el-form-item>
         <el-form-item label="国家/地区">
           <el-select v-model="formData.nationalArea" class="inputW2">
@@ -396,7 +402,9 @@ export default {
     return {
       userId: this.$route.params.id,
       EmployeeEnum, // 员工枚举数据
-      userInfo: {},
+      userInfo: {
+        staffPhoto: 'http://lin-1309796059.cos.ap-shanghai.myqcloud.com/syx/13.jpg' // 员工照片
+      },
       formData: {
         userId: '',
         username: '', // 用户名
@@ -417,7 +425,7 @@ export default {
         nation: '', // 民族
         englishName: '', // 英文名字
         maritalStatus: '', // 婚姻状况
-        staffPhoto: '', // 员工照片
+        staffPhoto: 'http://lin-1309796059.cos.ap-shanghai.myqcloud.com/syx/14.jpg', // 员工照片
         birthday: '', // 生日
         zodiac: '', // 属相
         age: '', // 年龄
@@ -459,21 +467,49 @@ export default {
         isThereAnyCompetitionRestriction: '', // 有无竞业限制
         proofOfDepartureOfFormerCompany: '', // 前公司离职证明
         remarks: '' // 备注
-      }
+      },
+      defalutUrl: '',
+      defalutUrl1: ''
     }
   },
   created() {
     this.getUserDetailById()
     this.getEmployeesInfo()
   },
+  // mounted() {
+  //   setInterval(() => {
+  //     this.saveEmployeesInfo()
+  //     this.saveUserDetailById()
+  //   })
+  // },
   methods: {
     async getUserDetailById() {
-      this.userInfo = await getUserDetailById(this.userId)
+      const res = await getUserDetailById(this.userId)
+      this.userInfo = res
+      if (res.staffPhoto) {
+        // this.defalutUrl = 'http://lin-1309796059.cos.ap-shanghai.myqcloud.com/syx/13.jpg'
+        this.defalutUrl = res.staffPhoto
+      }
+      // this.defalutUrl = this.userInfo
+    },
+    onSuccess(file) {
+      console.log(file)
+      this.userInfo.staffPhoto = file.imgUrl
+    },
+    onSuccess1(file) {
+      this.formData.staffPhoto = file.imgUrl
     },
     async getEmployeesInfo() {
-      this.formData = await getEmployeesInfo(this.userId)
+      const res = await getEmployeesInfo(this.userId)
+      console.log(res)
+      this.formData = res
+      if (res.staffPhoto) {
+        // this.defalutUrl1 = 'http://lin-1309796059.cos.ap-shanghai.myqcloud.com/syx/14.jpg'
+        this.defalutUrl1 = res.staffPhoto
+      }
     },
     async saveEmployeesInfo() {
+      if (this.$refs.avator1.loading) return this.$message.error('图片还在上传')
       try {
         await saveEmployeesInfo(this.formData)
         this.$message.success('更新成功')
@@ -482,6 +518,7 @@ export default {
       }
     },
     async  saveUserDetailById() {
+      if (this.$refs.avator.loading) return this.$message.error('图片还在上传')
       try {
         await saveUserDetailById(this.userInfo)
         this.$message.success('保存用户信息成功')
